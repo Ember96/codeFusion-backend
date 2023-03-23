@@ -67,9 +67,16 @@ components:
       allOf:
         - type: object
           properties:
-            example:
-              {
-                "userName": "example",
-                "email": "email@com.mx",
-                "password": "password"
-              }
+            userName:
+              type: string
+              example: "John"
+            email:
+              type: string
+              example: "mail@domain.com"
+            password:
+                type: string
+                example: "123456"
+            required:
+              - userName
+              - email
+              - password
