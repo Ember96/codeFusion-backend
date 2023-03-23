@@ -1,63 +1,28 @@
 tags:
-  - name: exampleTag
-    description: an example of how to do a swagger doc using yaml
+  - name: userCreation
+    description: Create a new user
 paths:
-  /users/signUp1:
-    post:
-      tags:
-        - Create new user
-      summary: Save a new user on DB given username, email and password
-      description: this is only for testing and seeing
-      operationId: signUp
-      requestBody:
-        - userName: userName
-          in: query
+/users/signUp:
+  post:
+    summary: Crear un nuevo usuario
+    tags: [ Usuarios ]
+    requestBody:
+      required: true
+      content:
+        application/json:
           schema:
-            type: string
-            required: true
-        - email: email
-          in: query
-          schema:
-            type: string
-            required: true
-        - password: password
-          in: query
-          schema:
-            type: string
-            required: true
-      responses:
-        200:
-          description: returns a string to your path
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/userSchema"
-
-  tags:
-    - name: userCreation
-      description: Create a new user
-  paths:
-  /users/signUp:
-    post:
-      summary: Crear un nuevo usuario
-      tags: [ Usuarios ]
-      requestBody:
-        required: true
+            $ref: '#/components/schemas/userSchema'
+    responses:
+      200:
+        description: El usuario ha sido creado
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/userSchema'
-      responses:
-        200:
-          description: El usuario ha sido creado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/userSchema'
-        400:
-          description: Petición incorrecta
-        500:
-          description: Error interno del servidor
+      400:
+        description: Petición incorrecta
+      500:
+        description: Error interno del servidor
 
 
 
@@ -76,7 +41,7 @@ components:
             password:
                 type: string
                 example: "123456"
-            required:
-              - userName
-              - email
-              - password
+          required:
+            - userName
+            - email
+            - password
