@@ -24,10 +24,15 @@ module.exports = (deps) =>
 
 
 const createUser = async ({ services }, body) => {
+  console.log("Reaching Create User");
   const findUser = findRegisteredUser(body);
-
+try {
   const result = await services.neo4j.session.run(findUser);
-
+} catch (err) {
+    console.log(err);
+}
+  const result = await services.neo4j.session.run(findUser);
+  console.log("Database Result: ", result.records);
   if (result.records.length === 0) {
     const uuid = v4();
     const query = createUserQuery(uuid, body);

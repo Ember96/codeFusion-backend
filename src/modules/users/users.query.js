@@ -1,4 +1,5 @@
 const createUserQuery = (uuid, body) => {
+    try {
     const query = `
         CREATE (u: Student:User 
             {
@@ -11,8 +12,10 @@ const createUserQuery = (uuid, body) => {
             }
         );
     `;
-
     return query;
+    } catch (err) {
+        console.log(err, "over here");
+    }
 };
 
 const deleteUserQuery = (params) => `
