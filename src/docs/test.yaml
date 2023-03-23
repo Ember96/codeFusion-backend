@@ -1,30 +1,73 @@
-tags:
-  - name: userCreation
-    description: Create a new user
+openapi: 3.0.0
+info:
+  title: Codefusion API
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+servers:
+  - url: https://codefusion-frontend.web.app/
+    description: Production server
+  - url: http://localhost:8080
+    description: Server for devel and testing purposes
 paths:
-/users/signUp:
-  post:
-    summary: Crear un nuevo usuario
-    tags: [ Usuarios ]
-    requestBody:
-      required: true
-      content:
-        application/json:
+  /users/{uuid}:
+    get:
+      summary: Returns an user info.
+      description: Returns all the data of an user given his UUID
+      tags: [ Users ]
+      parameters:
+        - in: path
+          name: uuid
           schema:
-            $ref: '#/components/schemas/userSchema'
-    responses:
-      200:
-        description: El usuario ha sido creado
+            type: string
+          required: true
+      responses:
+        '200':    # status code
+          description: User data
+          content:
+            application/json:
+              schema:   # response body
+                $ref: '#/components/schemas/userSchema'
+
+  /users/signUp:
+    post:
+      summary: Creates a new user.
+      tags: [ Users ]
+      requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/userSchema'
-      400:
-        description: Petición incorrecta
-      500:
-        description: Error interno del servidor
+      responses:
+        200:
+          description: User has been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userSchema'
+        400:
+          description: Incorrect request
+        500:
+          description: Server internal error
 
-
+  /users/{uuid}/deleteUser:
+    delete:
+      summary: Deletes an user.
+      description: Deletes all data of an user given his UUID
+      tags: [ Users ]
+      parameters:
+        - in: path
+          name: uuid
+          schema:
+            type: string
+          required: true
+      responses:
+        '200': # status code
+          description: User data
+          content:
+            application/json:
+              schema: # response body
+                $ref: '#/components/schemas/userSchema'
 
 components:
   schemas:
@@ -39,8 +82,8 @@ components:
               type: string
               example: "mail@domain.com"
             password:
-                type: string
-                example: "123456"
+              type: string
+              example: "123456"
           required:
             - userName
             - email
